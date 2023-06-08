@@ -32,6 +32,7 @@ async function playCharacter(nameCharacter) {
 
     // const action, prende un'azione dalla lista sotto;
     const action = getRandomAction();
+    const prompts = getRandomPrompts();
     // parametri AI
     const temperature = 1.0;
     const frequency_penalty = 2.0;
@@ -47,7 +48,7 @@ async function playCharacter(nameCharacter) {
             messages: [
                 {
                     role: "user",
-                    content: `Fai finta di essere un personaggio qualsiasi O di un'opera: fumetti, videogiochi, libri, film OPPURE del mondo reale: un attore, un politico, un personaggio storico. Selezionalo tra quelli che conosci, NON rivelare il tuo NOME o il tuo SOPRANNOME e dettagli sulla tua identità e NON essere mai lo stesso personaggio. Restituisci SOLO il "nome" OPPURE il "soprannome" del personaggio tra PARENTESI QUADRE all'inizio del tuo messaggio. Utilizzando massimo 100 parole ${action}. \n`,
+                    content: ` ${prompts} NON essere mai lo stesso personaggio. Restituisci SOLO il "nome" ED EVENTUALMENTE il "soprannome" del personaggio tra PARENTESI QUADRE all'inizio del tuo messaggio. Utilizzando massimo 100 parole ${action}. \n`,
                 }
             ],
             frequency_penalty: frequency_penalty,
@@ -60,14 +61,12 @@ async function playCharacter(nameCharacter) {
     // 5. Compilare la modale con i dati ricevuti
     const message = data.choices[0].message.content;
     let randomCharacter = message.split(/\[|\]/);
-    let splitCharacter = randomCharacter[1].split(' ');
 
     // Contatore risposta:
 
     let answerCounter = 0;
 
     console.log(randomCharacter[1]);
-    console.log(splitCharacter);
 
     modalContent.innerHTML = `
         <h2>${nameCharacter}</h2>
@@ -85,15 +84,14 @@ async function playCharacter(nameCharacter) {
             for (let j = 0; j < randomCharacter[1].length; j++) {
                 if (risposta[i].toLowerCase() === randomCharacter[1][j].toLowerCase()) {
                     answerCounter++;
-                    console.log(answerCounter);
                     break;
                 }
             }
         }
+        // eventualmente fare una soluzione meno arronzata:
+        let winCondition = randomCharacter[1].length / 2 - 0.5;
 
-        let winCondition = randomCharacter[1].length / 2;
-
-        if (attemptCounter >= 0) {
+        if (attemptCounter > 0) {
             if (answerCounter >= winCondition) {
                 esito.classList.remove('loading-hidden');
                 esito.innerHTML = `Congratulazioni! Risposta esatta!
@@ -124,6 +122,23 @@ async function playCharacter(nameCharacter) {
     // 6. Nascondere il loader e mostrare la modale
     loader.classList.add("loading-hidden");
     modal.classList.remove("modal-hidden");
+}
+
+function getRandomPrompts() {
+    const prompts = [
+        "Sei un personaggio dei fumetti. Selezionalo tra quelli che conosci, NON rivelare il tuo NOME o il tuo SOPRANNOME o il tuo alter-ego e dettagli sulla tua identità.",
+        "Sei un personaggio famoso della realtà tra quelli che conosci, NON rivelare il tuo NOME e dettagli sulla tua identità.",
+        "Sei un personaggio dei videogiochi tra quelli che conosci. NON rivelare il tuo nome, nè dettagli sulla tua identità.",
+        "Sei un personaggio di un film o una serie tv tra quelli esistenti. NON rivelare il tuo nome, nè dettagli sulla tua identità.",
+        "Sei un personaggio di un libro o di un'opera tra quelli esistenti. NON rivelare il tuo nome, nè dettagli sulla tua identità.",
+        "Sei una celebrità esistente tra quelli che conosci ed esistenti. NON rivelare il tuo nome, nè dettagli sulla tua identità.",
+        "Sei un filosofo o un personaggio storico tra quelli che conosci e che sono esistiti. NON rivelare il tuo nome, nè dettagli sulla tua identità.",
+        "Sei un'artista esistente e famoso. NON rivelare il tuo nome, nè dettagli sulla tua identità."
+    ];
+
+    const RandomPrompts = Math.floor(Math.random() * prompts.length); // da 0 a X
+
+    return prompts[RandomPrompts];
 }
 
 function getRandomAction() {
