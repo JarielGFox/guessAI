@@ -66,6 +66,7 @@ async function playCharacter(nameCharacter) {
 
     let answerCounter = 0;
 
+    // Al momento in console stampa la risposta giusta per motivi di test
     console.log(randomCharacter[1]);
 
     modalContent.innerHTML = `

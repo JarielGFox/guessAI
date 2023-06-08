@@ -1,4 +1,4 @@
-# Indovina l'AI
+# Indovina l'AI - WORK IN PROGRESS
 
 L'intelligenza artificiale restituirà una celebre frase o caratteristica di un personaggio reale o di fantasia e voi dovrete provare ad indovinare di chi si tratta.
 
