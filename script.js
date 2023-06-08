@@ -6,7 +6,7 @@ const API_URL = "https://api.openai.com/v1/chat/completions";
 const MODEL = "gpt-3.5-turbo";
 
 // Inserisci qui la tua chiave API
-const API_KEY = "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";
+const API_KEY = "";
 
 const loader = document.querySelector('.loading');
 const modal = document.querySelector(".modal");
