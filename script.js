@@ -60,11 +60,14 @@ async function playCharacter(nameCharacter) {
     // 5. Compilare la modale con i dati ricevuti
     const message = data.choices[0].message.content;
     let randomCharacter = message.split(/\[|\]/);
+    let splitCharacter = randomCharacter[1].split(' ');
 
-    console.log(randomCharacter);
+    // Contatore risposta:
 
+    let answerCounter = 0;
 
-
+    console.log(randomCharacter[1]);
+    console.log(splitCharacter);
 
     modalContent.innerHTML = `
         <h2>${nameCharacter}</h2>
@@ -78,27 +81,44 @@ async function playCharacter(nameCharacter) {
 
         let risposta = modalContent.nextElementSibling.value;
 
+        for (let i = 0; i < risposta.length; i++) {
+            for (let j = 0; j < randomCharacter[1].length; j++) {
+                if (risposta[i].toLowerCase() === randomCharacter[1][j].toLowerCase()) {
+                    answerCounter++;
+                    console.log(answerCounter);
+                    break;
+                }
+            }
+        }
+
+        let winCondition = randomCharacter[1].length / 2;
+
         if (attemptCounter >= 0) {
-            if (risposta.toLowerCase() === randomCharacter[1].toLowerCase()) {
+            if (answerCounter >= winCondition) {
                 esito.classList.remove('loading-hidden');
                 esito.innerHTML = `Congratulazioni! Risposta esatta!
-            <br />
-            <br />
-            Per continuare a giocare, premi sulla X e continua!`;
+                    <br />
+                    <br />
+                    Per continuare a giocare, premi sulla X e continua!`;
                 attemptCounter = 3;
             } else {
                 esito.classList.remove('loading-hidden');
                 esito.innerHTML = `Mi dispiace, hai sbagliato, hai ancora ${attemptCounter} tentativi</b>
-            <br/>
-            <br />
-            Per continuare a giocare, premi sulla X e riprova!
-            `;
+                <br/>
+                <br />
+                Per continuare a giocare, premi sulla X e riprova!
+                `;
             }
-            console.log(risposta);
         } else {
             submitAnswer.setAttribute('disabled', '');
             esito.innerHTML = `Mi dispiace la risposta corretta era ${randomCharacter[1]}, hai esaurito i tentativi a disposizione. Premi sulla X per continuare a giocare.`;
         }
+
+
+        // console.log(answerCounter);
+        // console.log(winCondition);
+
+        answerCounter = 0;
     })
 
     // 6. Nascondere il loader e mostrare la modale
