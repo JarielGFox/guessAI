@@ -1,0 +1,184 @@
+/* 
+    STYLE GUIDE:
+
+    Colore blue: #1212b2
+    Colore giallo: #e9f45b
+    Colore azzurro sfondo pagina: #6885e0
+    Colore azzurro : #a1d2ff
+    Colore rosa: #ffaafb
+    Colore sfondo loading e modale: rgba(161, 210, 255, 0.8) 
+*/
+
+/*--------------
+    RESET
+---------------*/
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/*--------------
+    GENERAL
+---------------*/
+html {
+    font-family: 'Space Grotesk', sans-serif;
+    background-color: salmon;
+    color: white;
+}
+
+h1 {
+    font-size: 35px;
+    margin-bottom: 8px;
+}
+
+h2 {
+    margin-bottom: 16px;
+    font-size: 24px;
+}
+
+p {
+    margin-bottom: 16px;
+}
+
+.container {
+    max-width: 540px;
+    margin: 0 auto;
+}
+
+/*--------------
+    HEADER
+---------------*/
+header {
+    background: linear-gradient(#741ef4 1%, rgb(203, 36, 241));
+    text-align: center;
+    padding: 32px;
+}
+
+/*--------------
+    CHARACTER
+---------------*/
+.character {
+    height: 125px;
+    width: 125px;
+    background-color: #f0b9f5;
+    border-radius: 100%;
+    border: 2px solid #e66df3;
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+}
+
+.character img {
+    max-width: 200px;
+    height: 150px;
+}
+
+.characters {
+    transform: translateY(30%);
+    top: 50%;
+    left: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    flex-wrap: wrap;
+    padding: 40px 4px;
+}
+
+/*--------------
+    LOADING
+---------------*/
+.loading {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(161, 210, 255, 0.8);
+    z-index: 999;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.loading img {
+    width: 100px;
+}
+
+.loading-hidden {
+    display: none;
+}
+
+/*--------------
+    MODAL
+---------------*/
+.modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(161, 181, 255, 0.8);
+    z-index: 999;
+}
+
+.modal p {
+    border: 5px dotted blueviolet;
+    padding: 10px;
+}
+
+.modal-box {
+    position: relative;
+    background-color: sandybrown;
+    padding: 20px;
+    border: 2px solid blueviolet;
+    max-width: 512px;
+    margin: 24px auto;
+}
+
+.modal-close {
+    background-color: #ffaafb;
+    height: 36px;
+    width: 36px;
+    border-radius: 50%;
+    border: 2px solid blueviolet;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    position: absolute;
+    top: 12px;
+    right: 12px;
+}
+
+.modal-hidden {
+    display: none;
+}
+
+/*--------------
+    EXTRA
+---------------*/
+
+.instructions {
+    margin-top: 35px;
+    text-align: center;
+    padding: 15px;
+}
+
+input[type=text] {
+   margin-top: 10px;
+   padding: 5px;
+}
+
+input[type=text]:focus {
+  outline-color: violet;
+}
+
+button {
+    background-color: #ffaafb;
+    border: 1px solid blueviolet;
+    border-radius: 5%;
+    padding: 5px;
+    color: blueviolet;
+}

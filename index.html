@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Indovina AI (Chi)</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <header>
+        <h1>Indovina "AI"</h1>
+        <p>Clicca sul volto anonimo e <br> prova ad indovinare il personaggio!</p>
+    </header>
+    <main>
+        <div class="container">
+            <div class="characters">
+                <div class="character" data-character="Ignoto">
+                    <img class="" src="./images/anonperson.png" />
+                </div>
+            </div>
+
+            <p class="instructions">Cliccando sul volto, l'intelligenza artificiale restituirà una celebre frase o
+                caratteristica di un personaggio reale o di fantasia.
+            </p>
+        </div>
+        <!-- loading -->
+        <div class="loading loading-hidden">
+            <img src="./images/loader.gif" alt="Loader" />
+        </div>
+        <!-- fine loading -->
+        <!-- modal -->
+        <div class="modal modal-hidden">
+            <div class="modal-box">
+                <div class="modal-close">
+                    <img src="./images/close.svg" />
+                </div>
+                <div class="modal-content">
+                    <h2></h2>
+                    <p></p>
+                    <code></code>
+                </div>
+                <input type="text" name="indovina-chi" id="indovina-chi" placeholder="scrivi la risposta">
+                <button>Conferma Risposta</button>
+
+                <div class="loading-hidden" id="esito"></div>
+            </div>
+        </div>
+    </main>
+
+    <!-- <script src="./example.js"></script> -->
+    <script src="script.js"></script>
+</body>
+
+</html>
