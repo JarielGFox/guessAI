@@ -47,7 +47,7 @@ async function playCharacter(nameCharacter) {
             messages: [
                 {
                     role: "user",
-                    content: `Fai finta di essere un personaggio qualsiasi O di un'opera: fumetti, videogiochi, libri, film OPPURE del mondo reale: un attore, un politico, un personaggio storico. Selezionalo tra quelli che conosci, NON rivelare il tuo NOME e dettagli sulla tua identità e NON essere mai lo stesso personaggio. Restituisci SOLO il "nome" OPPURE il "soprannome" del personaggio tra PARENTESI QUADRE all'inizio del tuo messaggio. Utilizzando massimo 100 parole ${action}. \n`,
+                    content: `Fai finta di essere un personaggio qualsiasi O di un'opera: fumetti, videogiochi, libri, film OPPURE del mondo reale: un attore, un politico, un personaggio storico. Selezionalo tra quelli che conosci, NON rivelare il tuo NOME o il tuo SOPRANNOME e dettagli sulla tua identità e NON essere mai lo stesso personaggio. Restituisci SOLO il "nome" OPPURE il "soprannome" del personaggio tra PARENTESI QUADRE all'inizio del tuo messaggio. Utilizzando massimo 100 parole ${action}. \n`,
                 }
             ],
             frequency_penalty: frequency_penalty,
