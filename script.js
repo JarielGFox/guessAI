@@ -1,3 +1,5 @@
+import { APIKEY } from "./source.js";
+
 /*-----------
     VARIABILI 
 ------------*/
@@ -6,7 +8,7 @@ const API_URL = "https://api.openai.com/v1/chat/completions";
 const MODEL = "gpt-3.5-turbo";
 
 // Inserisci qui la tua chiave API
-const API_KEY = "Placeholder";
+const API_KEY = APIKEY;
 
 const loader = document.querySelector('.loading');
 const modal = document.querySelector(".modal");
