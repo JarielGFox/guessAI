@@ -121,6 +121,8 @@ header {
     bottom: 0;
     background-color: rgba(161, 181, 255, 0.8);
     z-index: 999;
+    overflow: auto;
+    overscroll-behavior: contain;
 }
 
 .modal p {

@@ -17,14 +17,19 @@ const modalClose = document.querySelector('.modal-close');
 
 const submitAnswer = modalContent.nextElementSibling.nextElementSibling;
 const esito = document.getElementById('esito');
-// let randomCharacter = '';
 
-// Contatore tentativi
+const chatHistory = [];
+
+// Contatore tentativi rimanenti dopo risposte sbagliate
 let attemptCounter = 3;
 
-/*-----------
-    FUNCTIONS 
-------------*/
+// let randomCharacter = ''; // decommentare per fini di testing
+
+
+/*----------------------
+    FUNZIONE ASINCRONA  
+---------------------*/
+
 async function playCharacter(nameCharacter) {
     // 1. Mostrare il loader
     loader.classList.remove("loading-hidden");
@@ -36,7 +41,9 @@ async function playCharacter(nameCharacter) {
     // parametri AI
     const temperature = 1.0;
     const frequency_penalty = 2.0;
+
     // 3. Recuperare la risposta
+
     const response = await fetch(API_URL, {
         method: "POST",
         headers: {
@@ -47,7 +54,7 @@ async function playCharacter(nameCharacter) {
             model: MODEL,
             messages: [
                 {
-                    role: "user",
+                    role: `system`, // comportamento di GPT
                     content: ` ${prompts} NON essere mai lo stesso personaggio. Restituisci SOLO il "nome" ED EVENTUALMENTE il "soprannome" del personaggio tra PARENTESI QUADRE all'inizio del tuo messaggio. Utilizzando massimo 100 parole ${action}. \n`,
                 }
             ],
@@ -81,41 +88,32 @@ async function playCharacter(nameCharacter) {
 
         let risposta = modalContent.nextElementSibling.value;
 
-        for (let i = 0; i < risposta.length; i++) {
-            for (let j = 0; j < randomCharacter[1].length; j++) {
-                if (risposta[i].toLowerCase() === randomCharacter[1][j].toLowerCase()) {
-                    answerCounter++;
-                    break;
-                }
-            }
-        }
-        // eventualmente fare una soluzione meno arronzata:
-        let winCondition = randomCharacter[1].length / 2 - 0.5;
+        // Controlla la percentuale di match nella risposta, passiamo alla funzione le due variabili
+        let matchPercentage = compareStrings(risposta, randomCharacter[1]);
 
-        if (attemptCounter > 0) {
-            if (answerCounter >= winCondition) {
-                esito.classList.remove('loading-hidden');
-                esito.innerHTML = `Congratulazioni! Risposta esatta!
-                    <br />
-                    <br />
-                    Per continuare a giocare, premi sulla X e continua!`;
-                attemptCounter = 3;
-            } else {
-                esito.classList.remove('loading-hidden');
-                esito.innerHTML = `Mi dispiace, hai sbagliato, hai ancora ${attemptCounter} tentativi</b>
-                <br/>
+        if (matchPercentage >= 0.60) {
+            // Risposta esatta
+            esito.classList.remove('loading-hidden');
+            esito.innerHTML = `Congratulazioni! Risposta esatta!
                 <br />
-                Per continuare a giocare, premi sulla X e riprova!
-                `;
-            }
+                <br />
+                Per continuare a giocare, premi sulla X e continua!`;
+            attemptCounter = 3;
+        } else if (attemptCounter > 0) {
+            // Risposta sbagliata con tentativi rimanenti
+            esito.classList.remove('loading-hidden');
+            esito.innerHTML = `Mi dispiace, hai sbagliato, hai ancora ${attemptCounter} tentativi</b>
+            <br/>
+            <br />
+            Per continuare a giocare, premi sulla X e riprova!
+            `;
         } else {
+            // Risposta sbagliata senza tentativi rimanenti
             submitAnswer.setAttribute('disabled', '');
             esito.innerHTML = `Mi dispiace la risposta corretta era ${randomCharacter[1]}, hai esaurito i tentativi a disposizione. Premi sulla X per continuare a giocare.`;
         }
 
-
-        // console.log(answerCounter);
-        // console.log(winCondition);
+        // console.log(answerCounter); // da decommentare in caso di problemi con answerCounter
 
         answerCounter = 0;
     })
@@ -125,40 +123,11 @@ async function playCharacter(nameCharacter) {
     modal.classList.remove("modal-hidden");
 }
 
-function getRandomPrompts() {
-    const prompts = [
-        "Sei un personaggio dei fumetti. Selezionalo tra quelli che conosci, NON rivelare il tuo NOME o il tuo SOPRANNOME o il tuo alter-ego e dettagli sulla tua identità.",
-        "Sei un personaggio famoso della realtà tra quelli che conosci, NON rivelare il tuo NOME e dettagli sulla tua identità.",
-        "Sei un personaggio dei videogiochi tra quelli che conosci. NON rivelare il tuo nome, nè dettagli sulla tua identità.",
-        "Sei un personaggio di un film o una serie tv tra quelli esistenti. NON rivelare il tuo nome, nè dettagli sulla tua identità.",
-        "Sei un personaggio di un libro o di un'opera tra quelli esistenti. NON rivelare il tuo nome, nè dettagli sulla tua identità.",
-        "Sei una celebrità esistente tra quelli che conosci ed esistenti. NON rivelare il tuo nome, nè dettagli sulla tua identità.",
-        "Sei un filosofo o un personaggio storico tra quelli che conosci e che sono esistiti. NON rivelare il tuo nome, nè dettagli sulla tua identità.",
-        "Sei un'artista esistente e famoso. NON rivelare il tuo nome, nè dettagli sulla tua identità."
-    ];
 
-    const RandomPrompts = Math.floor(Math.random() * prompts.length); // da 0 a X
-
-    return prompts[RandomPrompts];
-}
-
-function getRandomAction() {
-    const actions = [
-        'saluta nel TUO modo più iconico',
-        'racconta la TUA ultima avventura',
-        'rispondi con una TUA famosa citazione',
-        'parlaci di chi è il TUO migliore amico O braccio destro O la TUA NEMESI',
-        'ipotizza di scrivere la TUA biografia di linkedin omettendo il TUO nome E ruolo'
-    ];
-
-    const indexRandom = Math.floor(Math.random() * actions.length); // da 0 a 5
-
-    return actions[indexRandom];
-}
-
-/*-----------
+/*------------------
     INIT & EVENTS
-------------*/
+------------------ */
+
 const characters = document.querySelectorAll(".character");
 
 characters.forEach(function (element) {
