@@ -1,23 +1,24 @@
 import { APIKEY } from "./source.js";
 
-/*-----------
-    VARIABILI 
-------------*/
-
+/*-------------------
+ LISTA VARIABILI 
+--------------------*/
+//VARIABILI API
 const API_URL = "https://api.openai.com/v1/chat/completions";
 const MODEL = "gpt-3.5-turbo";
-
-// Inserisci qui la tua chiave API
 const API_KEY = APIKEY;
 
+// VARIABILI CLASSI
 const loader = document.querySelector('.loading');
 const modal = document.querySelector(".modal");
 const modalContent = document.querySelector('.modal-content');
 const modalClose = document.querySelector('.modal-close');
 
+// VARIABILI ELEMENTI
 const submitAnswer = modalContent.nextElementSibling.nextElementSibling;
 const esito = document.getElementById('esito');
 
+// Ricordarsi di creare funzione per resettare/pulire chat per ripartire da capo
 const chatHistory = [];
 
 // Contatore tentativi rimanenti dopo risposte sbagliate
@@ -25,10 +26,9 @@ let attemptCounter = 3;
 
 // let randomCharacter = ''; // decommentare per fini di testing
 
-
-/*----------------------
-    FUNZIONE ASINCRONA  
----------------------*/
+/*----------------------------------
+    INIZIO GIGA FUNZIONE ASINCRONA 
+-------------------------------------*/
 
 async function playCharacter(nameCharacter) {
     // 1. Mostrare il loader
@@ -42,44 +42,57 @@ async function playCharacter(nameCharacter) {
     const temperature = 1.0;
     const frequency_penalty = 2.0;
 
-    // 3. Recuperare la risposta
+    // 3. Recuperare la risposta con funzione asincrona
+    const fetchResponse = async () => {
+        const response = await fetch(API_URL, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                "Authorization": `Bearer ${API_KEY}`
+            },
+            body: JSON.stringify({
+                model: MODEL,
+                messages: chatHistory,
+                frequency_penalty: frequency_penalty,
+                temperature: temperature
+            })
+        });
 
-    const response = await fetch(API_URL, {
-        method: "POST",
-        headers: {
-            "Content-Type": "application/json",
-            "Authorization": `Bearer ${API_KEY}`
-        },
-        body: JSON.stringify({
-            model: MODEL,
-            messages: [
-                {
-                    role: `system`, // comportamento di GPT
-                    content: ` ${prompts} NON essere mai lo stesso personaggio. Restituisci SOLO il "nome" ED EVENTUALMENTE il "soprannome" del personaggio tra PARENTESI QUADRE all'inizio del tuo messaggio. Utilizzando massimo 100 parole ${action}. \n`,
-                }
-            ],
-            frequency_penalty: frequency_penalty,
-            temperature: temperature
-        })
-    })
+        return response;
+    }
+
+    //il contenuto della conversazione e chat verrà pushato in chatHistory
+    const chatStorage = () => {
+        chatHistory.push({
+            role: `system`,
+            content: `${prompts} NON essere mai lo stesso personaggio E NON RIPETERTI. Restituisci SOLO il "nome" ED EVENTUALMENTE il "soprannome" del personaggio tra PARENTESI QUADRE all'inizio del tuo messaggio. Utilizzando massimo 100 parole ${action}. Le tue risposte devono seguire questo esempio:\n\n###\n\n[Nome Personaggio] ${action}###`,
+        });
+
+        return fetchResponse();
+    }
 
     // 4. Interpretare la risposta in JSON
+    const response = await chatStorage();
     const data = await response.json();
     // 5. Compilare la modale con i dati ricevuti
     const message = data.choices[0].message.content;
     let randomCharacter = message.split(/\[|\]/);
+    // A volte può mettere le virgole e questo causa apparizione di modale vuota, pensare ad un fix.
 
     // Contatore risposta:
-
     let answerCounter = 0;
 
     // Al momento in console stampa la risposta giusta per motivi di test
+
+    // Array intero 
+    console.log(randomCharacter);
+    // Cattura solo il nome del personaggio
     console.log(randomCharacter[1]);
 
     modalContent.innerHTML = `
         <h2>${nameCharacter}</h2>
         <p>${randomCharacter[2]}</p>
-        <code>action: <b>${action}</b></code>
+        <code><b>prompt:</b> ${prompts} <br /> <b>action:</b> ${action}</code>
     `;
 
     submitAnswer.addEventListener('click', (event) => {
@@ -142,5 +155,5 @@ modalClose.addEventListener("click", function () {
     esito.innerHTML = '';
     attemptCounter = 3;
     modalContent.nextElementSibling.value = '';
-    location.reload();
+    location.reload(); // risolvere bug che richiede aggiornamento pagina forzato, uso di closure maybe?
 });

@@ -1,16 +1,5 @@
-/* 
-    STYLE GUIDE:
-
-    Colore blue: #1212b2
-    Colore giallo: #e9f45b
-    Colore azzurro sfondo pagina: #6885e0
-    Colore azzurro : #a1d2ff
-    Colore rosa: #ffaafb
-    Colore sfondo loading e modale: rgba(161, 210, 255, 0.8) 
-*/
-
 /*--------------
-    RESET
+ CSS RESET
 ---------------*/
 * {
     margin: 0;

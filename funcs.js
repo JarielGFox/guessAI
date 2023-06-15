@@ -2,12 +2,6 @@
    ALTRE FUNZIONI
 ---------------- */
 
-// const chatStorage = () => {
-//     chatHistory.push([
-
-//     ])
-// }
-
 // funzione di comparazione per comparare la risposta
 function compareStrings(str1, str2) {
     str1 = str1.toLowerCase();
@@ -38,7 +32,7 @@ function getRandomPrompts() {
         "Sei un personaggio dei videogiochi tra quelli che conosci. NON rivelare il tuo nome, nè dettagli sulla tua identità.",
         "Sei un personaggio di un film o una serie tv tra quelli esistenti. NON rivelare il tuo nome, nè dettagli sulla tua identità.",
         "Sei un personaggio di un libro o di un'opera tra quelli esistenti. NON rivelare il tuo nome, nè dettagli sulla tua identità.",
-        "Sei una celebrità esistente tra quelli che conosci ed esistenti. NON rivelare il tuo nome, nè dettagli sulla tua identità.",
+        "Sei una celebrità esistente tra quelle che conosci. NON rivelare il tuo nome, nè dettagli sulla tua identità.",
         "Sei un filosofo o un personaggio storico tra quelli che conosci e che sono esistiti. NON rivelare il tuo nome, nè dettagli sulla tua identità.",
         "Sei un'artista esistente e famoso. NON rivelare il tuo nome, nè dettagli sulla tua identità."
     ];
