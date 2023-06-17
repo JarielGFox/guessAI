@@ -13,13 +13,15 @@ const loader = document.querySelector('.loading');
 const modal = document.querySelector(".modal");
 const modalContent = document.querySelector('.modal-content');
 const modalClose = document.querySelector('.modal-close');
+const clearHistory = document.querySelector('#clear-history');
+const clearMessage = document.querySelector('#clear-success');
 
 // VARIABILI ELEMENTI
 const submitAnswer = modalContent.nextElementSibling.nextElementSibling;
 const esito = document.getElementById('esito');
 
 // Ricordarsi di creare funzione per resettare/pulire chat per ripartire da capo
-const chatHistory = [];
+let chatHistory = [];
 
 // Contatore tentativi rimanenti dopo risposte sbagliate
 let attemptCounter = 3;
@@ -152,5 +154,14 @@ modalClose.addEventListener("click", function () {
     esito.innerHTML = '';
     attemptCounter = 3;
     modalContent.nextElementSibling.value = '';
-    // location.reload(); // risolvere bug che richiede aggiornamento pagina forzato, uso di closure maybe?
 });
+
+clearHistory.addEventListener('click', () => {
+    chatHistory = [];
+    clearMessage.innerHTML = 'Congratulazioni, cronologia pulita correttamente.';
+
+    setTimeout(() => {
+        clearMessage.innerHTML = '';
+    }, 3000);
+});
+

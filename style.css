@@ -173,3 +173,8 @@ button {
     padding: 5px;
     color: blueviolet;
 }
+
+.clear-message {
+    color: rgb(187, 67, 27);
+    font-weight: bold;
+}
