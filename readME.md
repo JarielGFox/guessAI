@@ -1,6 +1,6 @@
 # Indovina l'AI - WORK IN PROGRESS
 
-<center><img src="./images/guessAI.png" width="100" height="100"></center>
+<p align="center"><img src="./images/guessAI.png" width="75" height="75"></p>
 
 L'intelligenza artificiale restituirà una celebre frase o caratteristica di un personaggio reale o di fantasia e voi dovrete provare ad indovinare di chi si tratta.
 
