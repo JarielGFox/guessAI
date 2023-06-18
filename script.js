@@ -1,12 +1,8 @@
-import { APIKEY } from "./source.js";
+import { fetchResponse } from "./api.js";
 
 /*-------------------
  LISTA VARIABILI 
 --------------------*/
-//VARIABILI API
-const API_URL = "https://api.openai.com/v1/chat/completions";
-const MODEL = "gpt-3.5-turbo";
-const API_KEY = APIKEY;
 
 // VARIABILI CLASSI
 const loader = document.querySelector('.loading');
@@ -41,28 +37,7 @@ async function playCharacter(nameCharacter) {
     // const action, prende un'azione dalla lista sotto;
     const action = getRandomAction();
     const prompts = getRandomPrompts();
-    // parametri AI
-    const temperature = 1.0;
-    const frequency_penalty = 2.0;
 
-    // 3. Recuperare la risposta con funzione asincrona
-    const fetchResponse = async () => {
-        const response = await fetch(API_URL, {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-                "Authorization": `Bearer ${API_KEY}`
-            },
-            body: JSON.stringify({
-                model: MODEL,
-                messages: chatHistory,
-                frequency_penalty: frequency_penalty,
-                temperature: temperature
-            })
-        });
-
-        return response;
-    }
 
     //il contenuto della conversazione e chat verrà pushato in chatHistory
     chatHistory.push({
@@ -71,8 +46,8 @@ async function playCharacter(nameCharacter) {
     });
 
     // 4. Interpretare la risposta in JSON
-    const response = await fetchResponse();
-    const data = await response.json();
+    const data = await fetchResponse(chatHistory);
+
     // 5. Compilare la modale con i dati ricevuti
     const message = data.choices[0].message.content;
     randomCharacter = message.split(/\[|\]/);
