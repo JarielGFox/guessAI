@@ -1,0 +1,12 @@
+{
+    "short_name": "Guess AI",
+    "name": "Indovina CHI, AI",
+    "icons": [{
+    "src": "./images/guessAI.png",
+    "type": "image/png",
+    "sizes": "192x192"
+    }],
+    "theme_color": "#f71469",
+    "display": "fullscreen"
+}
+    
