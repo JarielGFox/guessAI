@@ -1,4 +1,4 @@
-import { fetchResponse } from "./api.js";
+import { fetchRandomCharacter } from "./api.js";
 
 /*-------------------
  LISTA VARIABILI 
@@ -23,21 +23,17 @@ let chatHistory = [];
 let attemptCounter = 3;
 
 let randomCharacter;
-let answerCounter;
-
 /*----------------------------------
     INIZIO GIGA FUNZIONE ASINCRONA 
 -------------------------------------*/
 
 async function playCharacter(nameCharacter) {
-    // 1. Mostrare il loader
+    //Mostrare il loader
     loader.classList.remove("loading-hidden");
-    // 2. Chiamare le Api di Open AI
 
     // const action, prende un'azione dalla lista sotto;
     const action = getRandomAction();
     const prompts = getRandomPrompts();
-
 
     //il contenuto della conversazione e chat verrà pushato in chatHistory
     chatHistory.push({
@@ -45,19 +41,14 @@ async function playCharacter(nameCharacter) {
         content: `${prompts} NON essere mai lo stesso personaggio E NON RIPETERTI. Restituisci SOLO il "nome" ED EVENTUALMENTE il "soprannome" del personaggio tra PARENTESI QUADRE all'inizio del tuo messaggio. Utilizzando massimo 100 parole ${action}. Le tue risposte devono seguire questo esempio:\n\n###\n\n[Nome Personaggio] ${action}###`,
     });
 
-    // 4. Interpretare la risposta in JSON
-    const data = await fetchResponse(chatHistory);
-
-    // 5. Compilare la modale con i dati ricevuti
-    const message = data.choices[0].message.content;
-    randomCharacter = message.split(/\[|\]/);
-    // A volte può mettere le virgole e questo causa apparizione di modale vuota, pensare ad un fix.
-
-    // Contatore risposta:
-    answerCounter = 0;
+    //Attendiamo il return di fetchRandomCharacter che sarà il return di "message".
+    randomCharacter = await fetchRandomCharacter(chatHistory);
+    if (!randomCharacter) {
+        alert('Qualcosa è andato storto! Controlla lo status di OpenAI.');
+        return;
+    }
 
     // Al momento in console stampa la risposta giusta per motivi di test
-
     // Array intero 
     console.log(randomCharacter);
     // Cattura solo il nome del personaggio
@@ -70,7 +61,7 @@ async function playCharacter(nameCharacter) {
     `;
 
 
-    // 6. Nascondere il loader e mostrare la modale
+    // Nascondere il loader e mostrare la modale
     loader.classList.add("loading-hidden");
     modal.classList.remove("modal-hidden");
 }
@@ -106,9 +97,6 @@ submitAnswer.addEventListener('click', (event) => {
         esito.innerHTML = `Mi dispiace la risposta corretta era ${randomCharacter[1]}, hai esaurito i tentativi a disposizione. Premi sulla X per continuare a giocare.`;
     }
 
-    // console.log(answerCounter); // da decommentare in caso di problemi con answerCounter
-
-    answerCounter = 0;
 })
 
 /*------------------
