@@ -4,7 +4,7 @@
 
 L'intelligenza artificiale restituirà una celebre frase o caratteristica di un personaggio reale o di fantasia e voi dovrete provare ad indovinare di chi si tratta.
 
-Una volta ottenuto il codice in locale, dovrete creare un file <b>"source.js"</b>, ed <u>inserire la seguente riga di codice</u>, dove inserire la vostra API KEY: <i>export const APIKEY = 'QUA VA LA API KEY';</i>
+Una volta ottenuto il codice in locale, dovrete creare un file <b>"source.js"</b>, ed <b>inserire la seguente riga di codice</b>, dove inserire la vostra API KEY: <i>export const APIKEY = 'QUA VA LA API KEY';</i>
 
 - Idea:
 
