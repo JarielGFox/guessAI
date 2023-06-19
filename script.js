@@ -1,5 +1,8 @@
 import { fetchRandomCharacter } from "./api.js";
 
+// 1) Inserire IIFE in script.js per evitare cluttering del global scope.
+// 2) Organizzare i file con pattern MVC.
+
 /*-------------------
  LISTA VARIABILI 
 --------------------*/
